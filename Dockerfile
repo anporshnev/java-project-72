@@ -1,6 +1,6 @@
 FROM gradle:8.5.0-alpine as builder
 WORKDIR /app
-COPY . .
+COPY app .
 RUN ./gradlew clean shadowJar
 
 FROM eclipse-temurin:20-jre-alpine
