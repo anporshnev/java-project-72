@@ -4,4 +4,7 @@ build:
 report:
 	make -C app report
 
+dev:
+	make -C app run
+
 .PHONY: build
