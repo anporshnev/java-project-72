@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.Instant;
 import java.util.Date;
 
 @Getter
@@ -15,7 +16,7 @@ public class Url {
 
     @ToString.Include
     private String name;
-    private Date createdAt= new Date();
+    private Instant createdAt;
 
     public Url(String name) {
         this.name = name;
