@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 public class App {
 
     private static final String DEFAULT_PORT = "7070";
-    private static final String DEFAULT_DB = "jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;";
+    private static final String DEFAULT_DB = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;";
 
     private static int getPort() {
         String port = System.getenv().getOrDefault("PORT", DEFAULT_PORT);
