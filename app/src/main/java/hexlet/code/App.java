@@ -2,13 +2,18 @@ package hexlet.code;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
+import gg.jte.resolve.ResourceCodeResolver;
 import hexlet.code.repository.BaseRepository;
 import io.javalin.Javalin;
+import io.javalin.rendering.template.JavalinJte;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
@@ -27,15 +32,29 @@ public class App {
 
     }
 
+    private static TemplateEngine createTemplateEngine() {
+        ClassLoader classLoader = App.class.getClassLoader();
+        ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
+        TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
+        return templateEngine;
+    }
+
+    private static String readResourceFile(String fileName) throws IOException {
+        var inputStream = App.class.getClassLoader().getResourceAsStream(fileName);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            return reader.lines().collect(Collectors.joining("\n"));
+        }
+    }
+
     public static Javalin getApp() throws IOException, SQLException {
+        JavalinJte.init(createTemplateEngine());
+
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(getDatabase());
 
         var dataSource = new HikariDataSource(hikariConfig);
-        var url = App.class.getClassLoader().getResource("schema.sql");
-        var file = new File(url.getFile());
-        var sql = Files.lines(file.toPath()).collect(Collectors.joining("\n"));
 
+        var sql = readResourceFile("schema.sql");
         try (var conn = dataSource.getConnection(); var statement = conn.createStatement()) {
             statement.execute(sql);
         }
@@ -44,7 +63,7 @@ public class App {
 
         var app = Javalin.create(conf -> conf.plugins.enableDevLogging());
 
-        app.get("/", ctx -> ctx.result("Hello, World!"));
+        app.get("/", ctx -> ctx.render("index.jte"));
 
         return app;
     }
