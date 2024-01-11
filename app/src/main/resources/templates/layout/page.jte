@@ -1,6 +1,8 @@
 @import gg.jte.Content
+@import hexlet.code.dto.BasePage
 
 @param Content content
+@param BasePage page = null
 
 <!doctype html>
 <html lang="ru">
@@ -31,10 +33,15 @@
 			</div>
 		</div>
   </nav>
-<main class="flex-grow-1">
-	<section>
-		${content}
-	</section>
-</main>
+  <main class="flex-grow-1">
+		<section>
+			${content}
+		</section>
+  </main>
+  @if(page.getAlertMessage() != null)
+		<div class="alert ${"alert" + "-" + page.getTypeAlert()}" role="alert">
+			${page.getAlertMessage()}
+		</div>
+  @endif
 </body>
 </html>
