@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.controller.RootController;
 import hexlet.code.repository.BaseRepository;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
@@ -16,6 +17,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
+
+import static io.javalin.apibuilder.ApiBuilder.*;
 
 @Slf4j
 public class App {
@@ -63,7 +66,15 @@ public class App {
 
         var app = Javalin.create(conf -> conf.plugins.enableDevLogging());
 
-        app.get("/", ctx -> ctx.render("index.jte"));
+        app.get("/", RootController::index);
+        app.routes(() -> {
+            path("urls", () -> {
+
+            });
+
+
+        });
+
 
         return app;
     }
