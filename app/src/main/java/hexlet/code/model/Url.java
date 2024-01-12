@@ -17,7 +17,9 @@ public class Url {
     private String name;
     private Instant createdAt;
 
-    public Url(String name) {
+    public Url(Long id, String name, Instant createdAt) {
+        this.id = id;
         this.name = name;
+        this.createdAt = createdAt;
     }
 }
