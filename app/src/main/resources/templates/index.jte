@@ -1,4 +1,9 @@
+@import hexlet.code.dto.BasePage
+
+@param BasePage page = null
+
 @template.layout.page(
+page = page,
 content = @`
 	<div class="container-fluid bg-dark p-5">
 		<div class="row">
@@ -17,7 +22,8 @@ content = @`
 										name="url"
 										aria-label="url"
 										class="form-control w-100"
-										placeholder="ссылка" autocomplete="off"
+										placeholder="ссылка"
+										autocomplete="off"
 								>
 								<label for="url-input">Ссылка</label>
 							</div>
