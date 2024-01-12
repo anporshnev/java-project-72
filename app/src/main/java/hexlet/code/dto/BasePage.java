@@ -1,14 +1,13 @@
 package hexlet.code.dto;
 
-import hexlet.code.util.AlertsType;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@ToString
 public class BasePage {
     private String alertMessage;
-    private AlertsType typeAlert;
+    private String typeAlert;
 }
