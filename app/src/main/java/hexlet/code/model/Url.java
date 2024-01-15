@@ -17,8 +17,12 @@ public class Url {
     private String name;
     private Instant createdAt;
 
-    public Url(Long id, String name, Instant createdAt) {
-        this.id = id;
+    public Url(String name) {
+        this.name = name;
+        this.createdAt = Instant.now();
+    }
+
+    public Url(String name, Instant createdAt) {
         this.name = name;
         this.createdAt = createdAt;
     }

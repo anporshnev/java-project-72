@@ -6,6 +6,7 @@ import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
 import hexlet.code.controller.RootController;
+import hexlet.code.controller.UrlController;
 import hexlet.code.repository.BaseRepository;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
@@ -18,7 +19,8 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
-import static io.javalin.apibuilder.ApiBuilder.*;
+import static io.javalin.apibuilder.ApiBuilder.path;
+import static io.javalin.apibuilder.ApiBuilder.post;
 
 @Slf4j
 public class App {
@@ -38,8 +40,7 @@ public class App {
     private static TemplateEngine createTemplateEngine() {
         ClassLoader classLoader = App.class.getClassLoader();
         ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
-        TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
-        return templateEngine;
+        return TemplateEngine.create(codeResolver, ContentType.Html);
     }
 
     private static String readResourceFile(String fileName) throws IOException {
@@ -58,6 +59,8 @@ public class App {
         var dataSource = new HikariDataSource(hikariConfig);
 
         var sql = readResourceFile("schema.sql");
+        log.info(sql);
+
         try (var conn = dataSource.getConnection(); var statement = conn.createStatement()) {
             statement.execute(sql);
         }
@@ -69,6 +72,7 @@ public class App {
         app.get("/", RootController::index);
         app.routes(() -> {
             path("urls", () -> {
+                post(UrlController.create);
 
             });
 
