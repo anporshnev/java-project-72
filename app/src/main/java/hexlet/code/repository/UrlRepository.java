@@ -23,8 +23,8 @@ public class UrlRepository extends BaseRepository {
             if (result.next()) {
                 var id = result.getLong("id");
                 var name = result.getString("name");
-                var createdAt = Instant.parse(result.getString("created_at"));
-                var newUrl = new Url(name, createdAt);
+                var createdAt = result.getTimestamp("created_at");
+                var newUrl = new Url(name, createdAt.toInstant());
                 newUrl.setId(id);
                 return Optional.of(newUrl);
             }
