@@ -15,7 +15,7 @@ public class UrlRepository extends BaseRepository {
 
     public static Optional<Url> findByUrl(String url) throws SQLException {
         var sql = "SELECT * FROM urls WHERE name = ?";
-        try ( var conn = dataSource.getConnection();
+        try (var conn = dataSource.getConnection();
               var prepStatement = conn.prepareStatement(sql)) {
             prepStatement.setString(1, url);
             var result = prepStatement.executeQuery();
@@ -33,7 +33,7 @@ public class UrlRepository extends BaseRepository {
 
     public static Optional<Url> findById(Long id) throws SQLException {
         var sql = "SELECT * FROM urls WHERE id = ?";
-        try ( var conn = dataSource.getConnection();
+        try (var conn = dataSource.getConnection();
               var prepStatement = conn.prepareStatement(sql)) {
             prepStatement.setLong(1, id);
             var result = prepStatement.executeQuery();
