@@ -1,10 +1,12 @@
 package hexlet.code.controller;
 
+import hexlet.code.dto.urls.UrlPage;
 import hexlet.code.dto.urls.UrlsPage;
 import hexlet.code.model.Url;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.AlertsType;
 import io.javalin.http.Handler;
+import io.javalin.http.NotFoundResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
@@ -42,6 +44,14 @@ public class UrlController {
         ctx.sessionAttribute("alertMessage", "Страница успешно добавлена");
         ctx.sessionAttribute("typeAlert", AlertsType.SUCCESS.getType());
         ctx.redirect("/urls");
+    };
+
+    public static Handler show = ctx -> {
+        var id = ctx.pathParamAsClass("id", Long.class).get();
+        var url = UrlRepository.findById(id)
+                .orElseThrow(() -> new NotFoundResponse("Сайт не найден"));
+        var page = new UrlPage(url);
+        ctx.render("urls/url.jte", Collections.singletonMap("page", page));
     };
 
     public static Handler showAll = ctx -> {
