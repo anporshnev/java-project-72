@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class DateFormatter {
     public static String formatDate(Instant date, String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern).withZone(ZoneId.systemDefault());;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern).withZone(ZoneId.systemDefault());
         return formatter.format(date);
     }
 }
