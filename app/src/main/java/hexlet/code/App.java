@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
+import static io.javalin.apibuilder.ApiBuilder.get;
 
 @Slf4j
 public class App {
@@ -73,6 +74,7 @@ public class App {
         app.routes(() -> {
             path("urls", () -> {
                 post(UrlController.create);
+                get(UrlController.showAll);
 
             });
 

@@ -1,5 +1,6 @@
 package hexlet.code.controller;
 
+import hexlet.code.dto.urls.UrlsPage;
 import hexlet.code.model.Url;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.AlertsType;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.Collections;
 
 @Slf4j
 public class UrlController {
@@ -25,6 +27,7 @@ public class UrlController {
         }
 
         var parsedUrl = "%s://%s".formatted(url.getProtocol(), url.getAuthority());
+
         var urlFromDB = UrlRepository.findByUrl(parsedUrl);
         if (urlFromDB.isPresent()) {
             ctx.sessionAttribute("alertMessage", "Страница уже существует");
@@ -39,5 +42,13 @@ public class UrlController {
         ctx.sessionAttribute("alertMessage", "Страница успешно добавлена");
         ctx.sessionAttribute("typeAlert", AlertsType.SUCCESS.getType());
         ctx.redirect("/urls");
+    };
+
+    public static Handler showAll = ctx -> {
+        var urls = UrlRepository.getAll();
+        var page = new UrlsPage(urls);
+        page.setAlertMessage(ctx.consumeSessionAttribute("alertMessage"));
+        page.setTypeAlert(ctx.consumeSessionAttribute("typeAlert"));
+        ctx.render("urls/urls.jte", Collections.singletonMap("page", page));
     };
 }
