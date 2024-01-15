@@ -36,7 +36,7 @@ public class UrlController {
             return;
         }
 
-        var newUrl = new Url(name);
+        var newUrl = new Url(parsedUrl);
         UrlRepository.save(newUrl);
 
         ctx.sessionAttribute("alertMessage", "Страница успешно добавлена");
