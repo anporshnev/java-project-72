@@ -70,20 +70,24 @@ public class App {
 
         var app = Javalin.create(conf -> conf.plugins.enableDevLogging());
 
+        getRoutes(app);
+
+        return app;
+    }
+
+    public static void getRoutes(Javalin app) {
         app.get("/", RootController::index);
         app.routes(() -> {
             path("urls", () -> {
                 post(UrlController.create);
                 get(UrlController.showAll);
-
+                path("{id}", () -> {
+                    get(UrlController.show);
+                });
             });
-
-
         });
-
-
-        return app;
     }
+
     public static void main(String[] args) throws IOException, SQLException {
         Javalin app = getApp();
         app.start(getPort());
