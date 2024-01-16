@@ -29,7 +29,7 @@ public class AppTest {
     }
 
     @AfterAll
-    public static final void closeApp() {
+    public static void closeApp() {
         app.close();
     }
 
