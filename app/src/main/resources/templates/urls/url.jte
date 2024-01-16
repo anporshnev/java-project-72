@@ -7,7 +7,7 @@
 page = page,
 content = @`
 	<div class="container-lg mt-5">
-		<h1>Сайт: https://java-ru-blog.blogspot.com</h1>
+		<h1>Сайт: ${page.getUrl().getName()}</h1>
 
 		<table class="table table-bordered table-hover mt-3">
 			<tbody>
